@@ -19,6 +19,7 @@ export default function CoinList( props ) {
 
         dataFetch();
     }, [])
+   
     const renderItem = ({ item } ) => (
         <TouchableOpacity style={styles.listItem} >
             <Text style={styles.itemName}>{item.name}</Text>
