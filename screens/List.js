@@ -9,8 +9,7 @@ import CoinList from '../components/coinList';
 export default function List({ navigation }) {
   return (
     <Background>
-      <SafeAreaView >  
-      <Text>List</Text>
+      <SafeAreaView>  
       < CoinList navigation={navigation}/>
       </SafeAreaView>
     </Background>
