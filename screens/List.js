@@ -10,8 +10,7 @@ export default function List({ navigation }) {
   return (
     <Background>
       <SafeAreaView>  
-      <Text>List</Text>
-      < CoinList/>
+      < CoinList navigation={navigation}/>
       </SafeAreaView>
     </Background>
   );
