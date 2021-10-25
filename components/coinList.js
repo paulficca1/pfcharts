@@ -13,8 +13,10 @@ import axiosApi from "../data/axios";
 
 export default function CoinList(props) {
   const [coins, setCoins] = useState([]);
+  const [loading, setLoading] = useState(false)
 
   const dataFetch = async () => {
+    
     const response = await axiosApi.get("coins/markets", {
       params: {
         vs_currency: "usd",
@@ -23,6 +25,7 @@ export default function CoinList(props) {
     });
     console.log(response.data);
     setCoins(response.data);
+    setLoading(false)
   };
 
   useEffect(() => {
@@ -42,12 +45,16 @@ export default function CoinList(props) {
 
   return (
     <View>
-      <Ionicons style={styles.refreshIcon}name="refresh" size={30} color="#560CCE" onPress={() => {dataFetch()}}/>
+      {/* <Ionicons style={styles.refreshIcon}name="refresh" size={30} color="#560CCE" onPress={() => {dataFetch()}}/> */}
       <FlatList
         style={{ width: "100%", height: "100%" }}
         data={coins}
+        onRefresh={() => {dataFetch()}}
+        refreshing={loading}
         renderItem={renderItem}
         keyExtractor={(item) => item.symbol}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
       />
     </View>
   );
@@ -56,7 +63,7 @@ export default function CoinList(props) {
 const styles = StyleSheet.create({
   itemName: {
     paddingTop: 25,
-    width: "32%",
+    width: "30%",
     height: 50,
     marginBottom: 20,
     fontSize: 15,
@@ -64,7 +71,7 @@ const styles = StyleSheet.create({
   },
   itemPrice: {
     paddingTop: 25,
-    width: "35%",
+    width: "30%",
     height: 50,
     marginBottom: 20,
     fontSize: 15,
@@ -72,7 +79,7 @@ const styles = StyleSheet.create({
   },
   itemPercentChange: {
     paddingTop: 25,
-    width: "20%",
+    width: "30%",
     height: 50,
     fontSize: 15,
     marginBottom: 20,
