@@ -1,21 +1,58 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity} from 'react-native';
+import React, { useEffect, useState } from "react";
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View, FlatList} from 'react-native';
 import Background from '../components/background';
 import Button from '../components/appButton';
 import Logo from '../components/logo';
+import axiosApi from "../data/axios";
 
 
 export default function Favorites({ route }) {
+  const [coins, setCoins] = useState([]);
+  const [loading, setLoading] = useState(false)
 
   const { oItem } = route.params;
   Alert.alert(oItem + " added to favorites!")
+  const [FavoriteCoins, setFavoriteCoins] = useState([oItem].concat(FavoriteCoins));
+
+  const dataFetch = async () => {
+    
+    const response = await axiosApi.get("coins/markets", {
+      params: {
+        vs_currency: "usd",
+        ids: FavoriteCoins,
+      },
+    });
+    console.log(response.data);
+    setCoins(response.data);
+    setLoading(false)
+  };
+
+  useEffect(() => {
+    dataFetch();
+  }, []);
+
+  const renderItem = ({ item }) => (
+    <TouchableOpacity style={styles.listItem}>
+      <Text style={styles.itemName}>{item.name}</Text>
+      <Text style={styles.itemPrice}>{item.current_price}</Text>
+      <Text style={styles.itemPercentChange}>{item.ath_change_percentage}</Text>
+    </TouchableOpacity>
+  );
+
   return (
-    <Background>
-      <Logo/>
-      <Text>{oItem}</Text>
-      <StatusBar style="auto" />
-    </Background>
+    <View>
+      <FlatList
+        style={{ width: "100%", height: "100%" }}
+        data={coins}
+        onRefresh={() => {dataFetch()}}
+        refreshing={loading}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.symbol}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      />
+    </View>
   );
 }
 

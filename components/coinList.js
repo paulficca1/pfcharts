@@ -32,20 +32,21 @@ export default function CoinList(props) {
     dataFetch();
   }, []);
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item, parentFunction}) => (
     <TouchableOpacity style={styles.listItem}>
       <Text style={styles.itemName}>{item.name}</Text>
       <Text style={styles.itemPrice}>{item.current_price}</Text>
       <Text style={styles.itemPercentChange}>{item.ath_change_percentage}</Text>
       <Ionicons name="heart" size={30} color="blue" onPress={() => {
-          props.navigation.navigate("Favorites", { oItem: item.name });
+           console.log(props)
+           this.props.parentFunction(item.name);
+          // props.navigation.navigate("Favorites", { oItem: item.name });
         }}/>
     </TouchableOpacity>
   );
 
   return (
     <View>
-      {/* <Ionicons style={styles.refreshIcon}name="refresh" size={30} color="#560CCE" onPress={() => {dataFetch()}}/> */}
       <FlatList
         style={{ width: "100%", height: "100%" }}
         data={coins}
