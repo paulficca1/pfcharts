@@ -1,63 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from "react";
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View, FlatList} from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, SafeAreaView, Alert} from 'react-native';
 import Background from '../components/background';
-import Button from '../components/appButton';
-import Logo from '../components/logo';
-import axiosApi from "../data/axios";
+import FavoritesList from '../components/favoritesList';
 
-
-export default function Favorites({ route }) {
-  const [coins, setCoins] = useState([]);
-  const [loading, setLoading] = useState(false)
-
+export default function List({ route, navigation }) {
   const { oItem } = route.params;
-  Alert.alert(oItem + " added to favorites!")
-  const [FavoriteCoins, setFavoriteCoins] = useState([oItem].concat(FavoriteCoins));
-
-  const dataFetch = async () => {
-    
-    const response = await axiosApi.get("coins/markets", {
-      params: {
-        vs_currency: "usd",
-        ids: FavoriteCoins,
-      },
-    });
-    console.log(response.data);
-    setCoins(response.data);
-    setLoading(false)
-  };
-
+  console.log("test:" +oItem)
+  const [favorites, setFavorites] = useState(oItem);
   useEffect(() => {
-    dataFetch();
+    setFavorites(favorites.concat(oItem))
   }, []);
-
-  const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.listItem}>
-      <Text style={styles.itemName}>{item.name}</Text>
-      <Text style={styles.itemPrice}>{item.current_price}</Text>
-      <Text style={styles.itemPercentChange}>{item.ath_change_percentage}</Text>
-    </TouchableOpacity>
-  );
-
+  // setFavorites("test2");
+ 
   return (
-    <View>
-      <FlatList
-        style={{ width: "100%", height: "100%" }}
-        data={coins}
-        onRefresh={() => {dataFetch()}}
-        refreshing={loading}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.symbol}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      />
-    </View>
+    <Background>
+      <SafeAreaView>  
+      <Text>{favorites}</Text>
+      < FavoritesList navigation={navigation} />
+      </SafeAreaView>
+    </Background>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    width: '100%',
     flex: 1,
     backgroundColor: '#fff'
   },

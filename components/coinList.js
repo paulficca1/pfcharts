@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 import {
   Alert,
   StyleSheet,
@@ -13,10 +13,15 @@ import axiosApi from "../data/axios";
 
 export default function CoinList(props) {
   const [coins, setCoins] = useState([]);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  
+
+  const faveNavFunction = async (paramName) => {
+     
+      props.navigation.navigate("Favorites", { oItem: paramName });
+  }
 
   const dataFetch = async () => {
-    
     const response = await axiosApi.get("coins/markets", {
       params: {
         vs_currency: "usd",
@@ -25,23 +30,19 @@ export default function CoinList(props) {
     });
     console.log(response.data);
     setCoins(response.data);
-    setLoading(false)
+    setLoading(false);
   };
 
   useEffect(() => {
     dataFetch();
   }, []);
 
-  const renderItem = ({ item, parentFunction}) => (
+  const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.listItem}>
       <Text style={styles.itemName}>{item.name}</Text>
       <Text style={styles.itemPrice}>{item.current_price}</Text>
       <Text style={styles.itemPercentChange}>{item.ath_change_percentage}</Text>
-      <Ionicons name="heart" size={30} color="blue" onPress={() => {
-           console.log(props)
-           this.props.parentFunction(item.name);
-          // props.navigation.navigate("Favorites", { oItem: item.name });
-        }}/>
+      <Ionicons name="heart" size={30} color="blue" onPress={() => {faveNavFunction(item.name)}} />
     </TouchableOpacity>
   );
 
@@ -50,7 +51,9 @@ export default function CoinList(props) {
       <FlatList
         style={{ width: "100%", height: "100%" }}
         data={coins}
-        onRefresh={() => {dataFetch()}}
+        onRefresh={() => {
+          dataFetch();
+        }}
         refreshing={loading}
         renderItem={renderItem}
         keyExtractor={(item) => item.symbol}
@@ -95,7 +98,7 @@ const styles = StyleSheet.create({
     borderColor: "#91DFFF",
   },
   refreshIcon: {
-      alignSelf: 'center',
-      paddingBottom: 20
-  }
+    alignSelf: "center",
+    paddingBottom: 20,
+  },
 });

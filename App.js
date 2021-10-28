@@ -43,11 +43,6 @@ function Main() {
 }
 
 export default function App() {
-  //continue working here to see if you can access this function from deep child component.
-  const parentFunction = (oItem) =>{
-    console.log("this function lives in parent...this data is from child: " + oItem)
-  }
-
   return (
     <NavigationContainer theme={DarkTheme} >
       <Stack.Navigator initialRouteName="Home" screenOptions={{
@@ -57,7 +52,7 @@ export default function App() {
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Main" component={Main} />
         <Stack.Screen name="Favorites" component={Favorites} />
-        <Stack.Screen name="List" component={List} parentFunction={parentFunction}/>
+        <Stack.Screen name="List" component={List}/>
       </Stack.Navigator>
     </NavigationContainer>
 
