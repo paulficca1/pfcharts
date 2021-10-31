@@ -5,18 +5,17 @@ import FavoritesList from '../components/favoritesList';
 
 export default function List({ route, navigation }) {
   const { oItem } = route.params;
-  console.log("test:" +oItem)
   const [favorites, setFavorites] = useState(oItem);
-  useEffect(() => {
-    setFavorites(favorites.concat(oItem))
-  }, []);
+  if (favorites !== oItem){
+    setFavorites(oItem)
+  }
+  // setFavorites(oItem)
   // setFavorites("test2");
  
   return (
     <Background>
-      <SafeAreaView>  
-      <Text>{favorites}</Text>
-      < FavoritesList navigation={navigation} />
+      <SafeAreaView> 
+      < FavoritesList navigation={navigation} coinList={favorites}/>
       </SafeAreaView>
     </Background>
   );

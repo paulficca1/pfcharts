@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 import {
   Alert,
   StyleSheet,
@@ -11,22 +11,24 @@ import {
 } from "react-native";
 import axiosApi from "../data/axios";
 
-export default function FavoritesList (props) {
+export default function FavoritesList(props) {
   const [coins, setCoins] = useState([]);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  console.log(props.coinList);
   
-
   const dataFetch = async () => {
+    // console.log(props)
     
     const response = await axiosApi.get("coins/markets", {
+      
       params: {
         vs_currency: "usd",
-        ids: "bitcoin,",
+        ids: props.coinList
       },
     });
     console.log(response.data);
     setCoins(response.data);
-    setLoading(false)
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -43,10 +45,13 @@ export default function FavoritesList (props) {
 
   return (
     <View>
+      <Text>test: {props.coinList}</Text>
       <FlatList
         style={{ width: "100%", height: "100%" }}
         data={coins}
-        onRefresh={() => {dataFetch()}}
+        onRefresh={() => {
+          dataFetch();
+        }}
         refreshing={loading}
         renderItem={renderItem}
         keyExtractor={(item) => item.symbol}
@@ -91,7 +96,7 @@ const styles = StyleSheet.create({
     borderColor: "#91DFFF",
   },
   refreshIcon: {
-      alignSelf: 'center',
-      paddingBottom: 20
-  }
+    alignSelf: "center",
+    paddingBottom: 20,
+  },
 });

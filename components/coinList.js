@@ -25,10 +25,9 @@ export default function CoinList(props) {
     const response = await axiosApi.get("coins/markets", {
       params: {
         vs_currency: "usd",
-        ids: "bitcoin,ethereum,tether,cardano,solana,dodgecoin,shibainu,terra,uniswap,litecoin,cosmos,polygon,filecoin,tron,tezos",
+        ids: "",
       },
     });
-    console.log(response.data);
     setCoins(response.data);
     setLoading(false);
   };
@@ -42,7 +41,7 @@ export default function CoinList(props) {
       <Text style={styles.itemName}>{item.name}</Text>
       <Text style={styles.itemPrice}>{item.current_price}</Text>
       <Text style={styles.itemPercentChange}>{item.ath_change_percentage}</Text>
-      <Ionicons name="heart" size={30} color="blue" onPress={() => {faveNavFunction(item.name)}} />
+      <Ionicons name="heart" size={30} color="blue" onPress={() => {faveNavFunction(item.id)}} />
     </TouchableOpacity>
   );
 
