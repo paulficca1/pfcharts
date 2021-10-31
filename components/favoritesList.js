@@ -14,10 +14,8 @@ import axiosApi from "../data/axios";
 export default function FavoritesList(props) {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(false);
-  console.log(props.coinList);
   
   const dataFetch = async () => {
-    // console.log(props)
     
     const response = await axiosApi.get("coins/markets", {
       

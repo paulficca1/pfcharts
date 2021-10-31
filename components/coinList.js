@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+
 import {
   Alert,
   StyleSheet,
@@ -14,12 +15,16 @@ import axiosApi from "../data/axios";
 export default function CoinList(props) {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [favorites, setFavorites] = useState("");
   
-
   const faveNavFunction = async (paramName) => {
-     
-      props.navigation.navigate("Favorites", { oItem: paramName });
-  }
+    if (favorites == "") {
+      setFavorites(paramName);
+    } else {
+      setFavorites(favorites.concat("," + paramName));
+    }
+    alert(paramName + " has been added to favorites.")
+  };
 
   const dataFetch = async () => {
     const response = await axiosApi.get("coins/markets", {
@@ -35,13 +40,24 @@ export default function CoinList(props) {
   useEffect(() => {
     dataFetch();
   }, []);
-
+  useEffect(() => {
+    if (favorites !== ""){
+      props.navigation.navigate("Favorites", { oItem: favorites });
+    }
+  }, [favorites]);
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.listItem}>
       <Text style={styles.itemName}>{item.name}</Text>
       <Text style={styles.itemPrice}>{item.current_price}</Text>
       <Text style={styles.itemPercentChange}>{item.ath_change_percentage}</Text>
-      <Ionicons name="heart" size={30} color="blue" onPress={() => {faveNavFunction(item.id)}} />
+      <Ionicons
+        name="heart"
+        size={30}
+        color="blue"
+        onPress={() => {
+          faveNavFunction(item.id);
+        }}
+      />
     </TouchableOpacity>
   );
 
