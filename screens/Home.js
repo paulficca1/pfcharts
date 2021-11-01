@@ -6,7 +6,15 @@ import Button from '../components/appButton';
 import Logo from '../components/logo';
 
 
-export default function Home() {
+export default function Home({route, navigation}) {
+  if (route.params){
+    const { coinId } = route.params;
+    console.log(coinId)
+  }
+  
+
+
+
   return (
     <Background>
       <Logo/>

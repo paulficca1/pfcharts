@@ -16,14 +16,14 @@ export default function CoinList(props) {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(false);
   const [favorites, setFavorites] = useState("");
-  
+
   const faveNavFunction = async (paramName) => {
     if (favorites == "") {
       setFavorites(paramName);
     } else {
       setFavorites(favorites.concat("," + paramName));
     }
-    alert(paramName + " has been added to favorites.")
+    alert(paramName + " has been added to favorites.");
   };
 
   const dataFetch = async () => {
@@ -41,12 +41,17 @@ export default function CoinList(props) {
     dataFetch();
   }, []);
   useEffect(() => {
-    if (favorites !== ""){
+    if (favorites !== "") {
       props.navigation.navigate("Favorites", { oItem: favorites });
     }
   }, [favorites]);
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.listItem}>
+    <TouchableOpacity
+      style={styles.listItem}
+      onPress={() => {
+        props.navigation.navigate("Home", { coinId: item.id });
+      }}
+    >
       <Text style={styles.itemName}>{item.name}</Text>
       <Text style={styles.itemPrice}>{item.current_price}</Text>
       <Text style={styles.itemPercentChange}>{item.ath_change_percentage}</Text>
