@@ -32,14 +32,13 @@ export const { width: SIZE } = Dimensions.get("window");
 
 export default function Home({ route, navigation }) {
   const [chartData, setChartData] = useState([]);
-
-  // if (route.params) {
-  //   const { coinId } = route.params;
-  //   console.log(coinId);
-  // }else{
-  const coinId = "bitcoin";
-  // }
-
+  const [coinId, setCoinId] = useState("bitcoin");
+  if (route.params) {
+    const { coinParam } = route.params;
+    if (coinParam != coinId) {
+      setCoinId(coinParam);
+    }
+  }
   const dataFetch = async () => {
     const response = await axiosApi.get("coins/" + coinId + "/market_chart", {
       params: {
@@ -49,7 +48,7 @@ export default function Home({ route, navigation }) {
       },
     });
     const responseArray = response.data.prices.map((elements) => {
-      return { x : elements[0], y : elements[1].toFixed(2) } 
+      return { x: elements[0], y: elements[1].toFixed(2) };
     });
     setChartData(responseArray);
     console.log(response.data.prices);
@@ -58,8 +57,8 @@ export default function Home({ route, navigation }) {
 
   useEffect(() => {
     dataFetch();
-  }, []);
-
+  }, [coinId]);
+ 
   // const data = [
   //   { x: 1453075200, y: 1.47 },
   //   { x: 1453161600, y: 1.37 },
@@ -79,7 +78,7 @@ export default function Home({ route, navigation }) {
 
   return (
     <ImageBackground
-      source={require("../assets/background.jpg")}
+      source={require("../assets/black.jpg")}
       style={styles.container}
     >
       <SlideAreaChart
@@ -87,29 +86,26 @@ export default function Home({ route, navigation }) {
         chartPaddingTop={100}
         height={300}
         scrollable
-        style={{ backgroundColor: 'black'}}
+        style={{ backgroundColor: "black" }}
         shouldCancelWhenOutside={false}
         axisWidth={12}
         axisHeight={12}
         paddingBottom={8}
         yAxisProps={{
           verticalLineWidth: 1,
-          axisLabel: 'Price',
-          axisLabelAlignment: 'middle',
+          axisLabel: "Price",
+          axisLabelAlignment: "middle",
           rotateAxisLabel: true,
           numberOfTicks: 1,
           hideMarkers: false,
         }}
         xAxisProps={{
-          axisLabel: 'X Units',
+          axisLabel: "Days",
         }}
         toolTipProps={{
           toolTipTextRenderers: [
             ({ scaleY, y }) => ({
-              text: "$" +scaleY
-                .invert(y)
-                .toFixed(2)
-                .toString(),
+              text: "$" + scaleY.invert(y).toFixed(2).toString(),
             }),
           ],
         }}

@@ -4,13 +4,12 @@ import Background from '../components/background';
 import FavoritesList from '../components/favoritesList';
 
 export default function List({ route, navigation }) {
-  const { oItem } = route.params;
-
- 
   return (
     <Background>
       <SafeAreaView> 
-      < FavoritesList navigation={navigation} coinList={oItem}/>
+        
+          < FavoritesList navigation={navigation} coinList={route.params ? route.params.oItem : "empty"}/>
+      
       </SafeAreaView>
     </Background>
   );

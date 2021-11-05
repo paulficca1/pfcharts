@@ -25,6 +25,17 @@ export default function CoinList(props) {
     }
     alert(paramName + " has been added to favorites.");
   };
+  // newColor = {}
+  // handleColor = (iVal) => {
+  //   let sVal = iVal.toString();
+  //   if (sVal.startsWith('-')){
+  //     newColor.color = 'red'
+  //     return sVal
+  //   }else {
+  //     newColor.color = 'green'
+  //     return sVal
+  //   }
+  // }
 
   const dataFetch = async () => {
     const response = await axiosApi.get("coins/markets", {
@@ -49,7 +60,7 @@ export default function CoinList(props) {
     <TouchableOpacity
       style={styles.listItem}
       onPress={() => {
-        props.navigation.navigate("Home", { coinId: item.id });
+        props.navigation.navigate("Home", { coinParam: item.id });
       }}
     >
       <Text style={styles.itemName}>{item.name}</Text>
@@ -108,8 +119,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginBottom: 20,
     marginRight: 10,
-    textAlign: "right",
-    color: "green",
+    textAlign: "right"
   },
   listItem: {
     flexDirection: "row",

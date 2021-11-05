@@ -14,14 +14,17 @@ import axiosApi from "../data/axios";
 export default function FavoritesList(props) {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(false);
-  
+  let displayText;
+  if (props.coinList == "empty") {
+    displayText = "Please select favorite from list page";
+  } else {
+    displayText = "";
+  }
   const dataFetch = async () => {
-    
     const response = await axiosApi.get("coins/markets", {
-      
       params: {
         vs_currency: "usd",
-        ids: props.coinList
+        ids: props.coinList,
       },
     });
     console.log(response.data);
@@ -43,7 +46,9 @@ export default function FavoritesList(props) {
 
   return (
     <View>
-      <Text>test: {props.coinList}</Text>
+      <Text style={{ width: '100%', textAlign: 'center', fontWeight: 'bold' }}>
+        {displayText}
+      </Text>
       <FlatList
         style={{ width: "100%", height: "100%" }}
         data={coins}
