@@ -9,6 +9,7 @@ import {
   View,
   Text,
   Button,
+  Image
 } from "react-native";
 import axiosApi from "../data/axios";
 
@@ -63,6 +64,10 @@ export default function CoinList(props) {
         props.navigation.navigate("Home", { coinParam: item.id });
       }}
     >
+      <Image
+        style={styles.image}
+        source={{uri: item.image}}
+      />
       <Text style={styles.itemName}>{item.name}</Text>
       <Text style={styles.itemPrice}>{item.current_price}</Text>
       <Text style={styles.itemPercentChange}>{item.ath_change_percentage}</Text>
@@ -98,7 +103,7 @@ export default function CoinList(props) {
 const styles = StyleSheet.create({
   itemName: {
     paddingTop: 25,
-    width: "30%",
+    width: "25%",
     height: 50,
     marginBottom: 20,
     fontSize: 15,
@@ -106,7 +111,7 @@ const styles = StyleSheet.create({
   },
   itemPrice: {
     paddingTop: 25,
-    width: "30%",
+    width: "18%",
     height: 50,
     marginBottom: 20,
     fontSize: 15,
@@ -131,4 +136,9 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     paddingBottom: 20,
   },
+  image: {
+    height: 48,
+    width: 48,
+    marginRight: 10
+  }
 });
