@@ -61,7 +61,7 @@ export default function CoinList(props) {
     <TouchableOpacity
       style={styles.listItem}
       onPress={() => {
-        props.navigation.navigate("Home", { coinParam: item.id });
+        props.navigation.navigate("Home", { coinParam: item.id, imageUrl: item.image});
       }}
     >
       <Image
@@ -74,7 +74,7 @@ export default function CoinList(props) {
       <Ionicons
         name="heart"
         size={30}
-        color="blue"
+        color="purple"
         onPress={() => {
           faveNavFunction(item.id);
         }}
@@ -103,11 +103,12 @@ export default function CoinList(props) {
 const styles = StyleSheet.create({
   itemName: {
     paddingTop: 25,
-    width: "25%",
+    width: "26%",
     height: 50,
     marginBottom: 20,
     fontSize: 15,
     alignSelf: "center",
+    fontWeight: 'bold'
   },
   itemPrice: {
     paddingTop: 25,
@@ -119,11 +120,11 @@ const styles = StyleSheet.create({
   },
   itemPercentChange: {
     paddingTop: 25,
-    width: "30%",
+    width: "28%",
     height: 50,
     fontSize: 15,
     marginBottom: 20,
-    marginRight: 10,
+    marginRight: 14,
     textAlign: "right"
   },
   listItem: {

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
   ImageBackground,
+  Image,
 } from "react-native";
 import Background from "../components/background";
 import Button from "../components/appButton";
@@ -31,12 +32,16 @@ import {
 export const { width: SIZE } = Dimensions.get("window");
 
 export default function Home({ route, navigation }) {
+  let bitcoinUrl = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579";
   const [chartData, setChartData] = useState([]);
   const [coinId, setCoinId] = useState("bitcoin");
+  const [imageUrl, serImageUrl] = useState("");
   if (route.params) {
-    const { coinParam } = route.params;
+    const { coinParam, imageUrl } = route.params;
     if (coinParam != coinId) {
       setCoinId(coinParam);
+      serImageUrl(imageUrl);
+      console.log(imageUrl)
     }
   }
   const dataFetch = async () => {
@@ -51,14 +56,12 @@ export default function Home({ route, navigation }) {
       return { x: elements[0], y: elements[1].toFixed(2) };
     });
     setChartData(responseArray);
-    console.log(response.data.prices);
-    console.log(chartData);
   };
 
   useEffect(() => {
     dataFetch();
   }, [coinId]);
- 
+
   // const data = [
   //   { x: 1453075200, y: 1.47 },
   //   { x: 1453161600, y: 1.37 },
@@ -81,6 +84,7 @@ export default function Home({ route, navigation }) {
       source={require("../assets/black.jpg")}
       style={styles.container}
     >
+      <Image style={styles.image} source={{ uri: imageUrl !== "" ? imageUrl :  bitcoinUrl}} />
       <SlideAreaChart
         data={chartData}
         chartPaddingTop={100}
@@ -100,7 +104,7 @@ export default function Home({ route, navigation }) {
           hideMarkers: false,
         }}
         xAxisProps={{
-          axisLabel: "Days",
+          axisLabel: "30 Days",
         }}
         toolTipProps={{
           toolTipTextRenderers: [
@@ -128,5 +132,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  image: {
+    height: 60,
+    width: 60,
+    marginBottom: 40
   },
 });
