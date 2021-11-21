@@ -1,19 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, TextInput, Alert} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, TextInput, Alert } from 'react-native';
 import Background from '../components/background';
 import Button from '../components/appButton';
 import Logo from '../components/logo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Register( { navigation } ) {
+
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  
+  const setData = async () => {
+    if (userName.length == 0 || password.length == 0) {
+        Alert.alert('Error', 'Please enter a username and password')
+    } else {
+        try {
+            var user = {
+                Username: userName,
+                Password: password
+            }
+            await AsyncStorage.setItem('UserData', JSON.stringify(user));
+            navigation.navigate('Home');
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
   return (
     <Background>
       <Logo/>
-      <TextInput placeholder=" User Name" placeholderTextColor='#91DFFF' style={styles.input} />
-      <TextInput placeholder=" Password" placeholderTextColor='#91DFFF'style={styles.input} />
-      <Button title="Register" onPress={() => navigation.navigate('Home')}></Button>
+      <TextInput placeholder=" User Name" placeholderTextColor='#91DFFF' style={styles.input} onChangeText={(value) => {setUserName(value); console.log(userName)}}/>
+      <TextInput placeholder=" Password" placeholderTextColor='#91DFFF'style={styles.input} onChangeText={(value) => setPassword(value)}/>
+      <Button title="Register" onPress={setData}></Button>
       <Text>Enter your username and password to register.</Text> 
-      <StatusBar style="auto" />
    
     </Background>
   );
