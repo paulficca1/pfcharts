@@ -30,8 +30,8 @@ export default function Register( { navigation } ) {
   return (
     <Background>
       <Logo/>
-      <TextInput placeholder=" User Name" placeholderTextColor='#91DFFF' style={styles.input} onChangeText={(value) => {setUserName(value); console.log(userName)}}/>
-      <TextInput placeholder=" Password" placeholderTextColor='#91DFFF'style={styles.input} onChangeText={(value) => setPassword(value)}/>
+      <TextInput autoCorrect={false} autoCapitalize={'none'} placeholder=" User Name" placeholderTextColor='#91DFFF' style={styles.input} onChangeText={(value) => {setUserName(value); console.log(userName)}}/>
+      <TextInput autoCorrect={false} secureTextEntry={true} autoCapitalize={'none'} placeholder=" Password" placeholderTextColor='#91DFFF'style={styles.input} onChangeText={(value) => setPassword(value)}/>
       <Button title="Register" onPress={setData}></Button>
       <Text>Enter your username and password to register.</Text> 
    

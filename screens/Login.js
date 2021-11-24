@@ -1,18 +1,54 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity} from 'react-native';
 import Background from '../components/background';
 import Button from '../components/appButton';
 import Logo from '../components/logo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function Login( { navigation } ) {
+
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+
+//   useEffect(() => {
+//     getData();
+// }, []);
+
+const evaluateLoginData = () => {
+    try {
+        AsyncStorage.getItem('UserData')
+            .then(value => {
+                if (value != null) {
+                  const savedUserName = value.split('"')[3]
+                  const savedPassword = value.split('"')[7]
+                  if (savedUserName !== userName){
+                    Alert.alert('Incorrect password')
+                  }else if (savedPassword !== password){
+                    Alert.alert('Incorrect username')
+                  }else{
+                    navigation.navigate('Main')
+                  }
+
+                }else {
+                  Alert.alert('No user data found, please register first.')
+                }
+            })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
+
   return (
     <Background>
       <Logo/>
-      <TextInput placeholder=" User Name" placeholderTextColor='#91DFFF' style={styles.input} />
-      <TextInput placeholder=" Password" placeholderTextColor='#91DFFF'style={styles.input} />
-      <Button title="SIGN IN" onPress={() => navigation.navigate('Main')}></Button>
+      <TextInput autoCorrect={false} autoCapitalize={'none'} placeholder=" User Name" placeholderTextColor='#91DFFF' style={styles.input} onChangeText={(value) => setUserName(value)}/>
+      <TextInput autoCorrect={false} secureTextEntry={true} autoCapitalize={'none'} placeholder=" Password" placeholderTextColor='#91DFFF'style={styles.input} onChangeText={(value) => setPassword(value)}/>
+      <Button title="SIGN IN" onPress={() => evaluateLoginData()}></Button>
       <Text>Enter your username and password to login.</Text>
       <Text>Not a member?.</Text>
       <TouchableOpacity onPress={() => navigation.navigate('Register')}>
