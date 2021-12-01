@@ -25,17 +25,17 @@ function Main() {
   return (
     
       <Tab.Navigator theme={DarkTheme} initialRouteName="Home" screenOptions={{
-        headerShown: false, tabBarActiveTintColor: '#560CCE'
+        headerShown: false, tabBarActiveTintColor: '#19c5ff'
       }} style={styles.tabbar}>
         <Tab.Screen name="List" component={List} options={{
           tabBarIcon: () => (
-            <Ionicons name="md-list-circle-outline" color="#560CCE" size={30} padding='20' />),
+            <Ionicons name="md-list-circle-outline" color="#66d9ff" size={30} padding='20' />),
         }} />
         <Tab.Screen name="Home" component={Home} options={{
-          tabBarIcon: () => (<Ionicons name="bar-chart-outline" color="#560CCE" size={30} />),
+          tabBarIcon: () => (<Ionicons name="bar-chart-outline" color="#66d9ff" size={30} />),
         }} />
         <Tab.Screen name="Favorites" component={Favorites} options={{
-          tabBarIcon: () => (<Ionicons name="heart-circle-outline" color="#560CCE" size={30} />),
+          tabBarIcon: () => (<Ionicons name="heart-circle-outline" color="#66d9ff" size={30} />),
         }} />
       </Tab.Navigator>
     

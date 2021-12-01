@@ -28,6 +28,7 @@ import {
   ToolTipTextRenderersInput,
   GradientProps,
 } from "@connectedcars/react-native-slide-charts";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export const { width: SIZE } = Dimensions.get("window");
 
@@ -62,46 +63,43 @@ export default function Home({ route, navigation }) {
     dataFetch();
   }, [coinId]);
 
-  // const data = [
-  //   { x: 1453075200, y: 1.47 },
-  //   { x: 1453161600, y: 1.37 },
-  //   { x: 1453248000, y: 1.53 },
-  //   { x: 1453334400, y: 1.54 },
-  //   { x: 1453420800, y: 1.52 },
-  //   { x: 1453507200, y: 2.03 },
-  //   { x: 1453593600, y: 2.1 },
-  //   { x: 1453680000, y: 2.5 },
-  //   { x: 1453766400, y: 2.3 },
-  //   { x: 1453852800, y: 2.42 },
-  //   { x: 1453939200, y: 2.55 },
-  //   { x: 1454025600, y: 2.41 },
-  //   { x: 1454112000, y: 2.43 },
-  //   { x: 1454198400, y: 2.2 },
-  // ];
 
   return (
-    <ImageBackground
-      source={require("../assets/black.jpg")}
+    <SafeAreaView
       style={styles.container}
     >
       <Image style={styles.image} source={{ uri: imageUrl !== "" ? imageUrl :  bitcoinUrl}} />
+      <View style={styles.tabBar}>
+          <TouchableOpacity style={styles.tabs}>
+            <Text style={styles.tabsText}>7 Days</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.tabs}>
+          <Text style={styles.tabsText}>30 Days</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.tabs}>
+          <Text style={styles.tabsText}>90 Days</Text>
+          </TouchableOpacity>
+      </View>
       <SlideAreaChart
+        fillColor={"#121212"}
+        chartLineColor={"#66d9ff"}
         data={chartData}
-        chartPaddingTop={100}
-        height={300}
+        chartPaddingTop={180}
+        height={400}
         scrollable
-        style={{ backgroundColor: "black" }}
+        style={styles.chartView}
         shouldCancelWhenOutside={false}
-        axisWidth={12}
+        axisWidth={8}
         axisHeight={12}
         paddingBottom={8}
         yAxisProps={{
-          verticalLineWidth: 1,
+          verticalLineWidth: 0,
           axisLabel: "Price",
-          axisLabelAlignment: "middle",
           rotateAxisLabel: true,
-          numberOfTicks: 1,
-          hideMarkers: false,
+          numberOfTicks: 0,
+          horizontalLineColor: "#66d9ff",
+          horizontalLineWidth: 0,
+          
         }}
         xAxisProps={{
           axisLabel: "30 Days",
@@ -113,8 +111,12 @@ export default function Home({ route, navigation }) {
             }),
           ],
         }}
+        cursorProps={{
+          cursorLine: false,
+          cursorColor: "#66d9ff"
+        }}
       />
-    </ImageBackground>
+    </SafeAreaView>
   );
 }
 
@@ -123,10 +125,17 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#121212",
   },
   chartView: {
-    marginTop: 40,
+    marginTop: 60,
+    marginBottom: 200, 
+    backgroundColor: "#121212",
+    fontWeight: "bold",
+    borderWidth: 1,
+    borderColor: "#3A3B3C",
+    borderRadius: 5
+    
   },
   lowerTitles: {
     flexDirection: "row",
@@ -136,6 +145,29 @@ const styles = StyleSheet.create({
   image: {
     height: 60,
     width: 60,
-    marginBottom: 40
+    marginBottom: 50,
+    marginTop: 80
   },
+  tabBar: {
+    flex: 1, 
+    flexDirection: "row",
+    height: 40,
+    marginBottom: 15
+  }, 
+  tabs: {
+    width: Dimensions.get("window").width / 3.5,
+    borderWidth: 1,
+    borderColor: "#3A3B3C",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 40,
+    marginRight: 3,
+    marginLeft: 3,
+    borderRadius: 5
+    
+  }, 
+  tabsText: {
+    color: "#a9a9a9"
+  }
+
 });
