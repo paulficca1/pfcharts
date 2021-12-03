@@ -9,9 +9,10 @@ import {
   View,
   Text,
   Button,
-  Image
+  Image,
 } from "react-native";
 import axiosApi from "../data/axios";
+import Background from "./background";
 
 export default function CoinList(props) {
   const [coins, setCoins] = useState([]);
@@ -61,17 +62,22 @@ export default function CoinList(props) {
     <TouchableOpacity
       style={styles.listItem}
       onPress={() => {
-        props.navigation.navigate("Home", { coinParam: item.id, imageUrl: item.image});
+        props.navigation.navigate("Home", {
+          coinParam: item.id,
+          imageUrl: item.image,
+          currentPrice: item.current_price,
+          name: item.name,
+          capRank: item.market_cap_rank,
+          priceChange: item.price_change_24h,
+        });
       }}
     >
-      <Image
-        style={styles.image}
-        source={{uri: item.image}}
-      />
+      <Image style={styles.image} source={{ uri: item.image }} />
       <Text style={styles.itemName}>{item.name}</Text>
       <Text style={styles.itemPrice}>{item.current_price}</Text>
-      <Text style={styles.itemPercentChange}>{item.ath_change_percentage}</Text>
+      <Text style={styles.itemPercentChange}>{item.price_change_24h}</Text>
       <Ionicons
+        style={{ marginRight: 30 }}
         name="heart"
         size={30}
         color="purple"
@@ -108,7 +114,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontSize: 15,
     alignSelf: "center",
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   itemPrice: {
     paddingTop: 25,
@@ -120,26 +126,28 @@ const styles = StyleSheet.create({
   },
   itemPercentChange: {
     paddingTop: 25,
-    width: "28%",
+    width: "25%",
     height: 50,
     fontSize: 15,
     marginBottom: 20,
     marginRight: 14,
-    textAlign: "right"
+    textAlign: "right",
   },
   listItem: {
     flexDirection: "row",
     alignItems: "center",
-    borderBottomWidth: 1,
-    borderColor: "#91DFFF",
+    borderWidth: 0.2,
+    borderColor: "#3A3B3C",
+    marginBottom: 4,
+    borderRadius: 5,
   },
-  refreshIcon: {
-    alignSelf: "center",
-    paddingBottom: 20,
+  favoritesIcon: {
+    marginRight: 20,
   },
   image: {
     height: 48,
     width: 48,
-    marginRight: 10
-  }
+    marginRight: 10,
+    marginLeft: 10,
+  },
 });

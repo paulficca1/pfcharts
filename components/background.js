@@ -17,7 +17,9 @@ export default function Background({ children }) {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    width: '100%'
+    width: '100%',
+    backgroundColor: "black"
+
   },
   container: {
     flex: 1,

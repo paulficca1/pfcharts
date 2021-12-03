@@ -45,7 +45,7 @@ export default function FavoritesList(props) {
       />
       <Text style={styles.itemName}>{item.name}</Text>
       <Text style={styles.itemPrice}>{item.current_price}</Text>
-      <Text style={styles.itemPercentChange}>{item.ath_change_percentage}</Text>
+      <Text style={styles.itemPercentChange}>{item.price_change_24h}</Text>
     </TouchableOpacity>
   );
 
@@ -103,8 +103,10 @@ const styles = StyleSheet.create({
   listItem: {
     flexDirection: "row",
     alignItems: "center",
-    borderBottomWidth: 1,
-    borderColor: "#91DFFF",
+    borderWidth: 0.2,
+    borderColor: "#3A3B3C",
+    marginBottom: 4,
+    borderRadius: 5
   },
   refreshIcon: {
     alignSelf: "center",
@@ -113,6 +115,7 @@ const styles = StyleSheet.create({
   image: {
     height: 48,
     width: 48,
-    marginRight: 5
+    marginRight: 5,
+    marginLeft: 10
   }
 });
